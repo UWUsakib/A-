@@ -1,0 +1,48 @@
+
+def Astar(msize, starting, goal, grid  ):
+    open=[(0,0,starting,"")]
+    visited=set()
+
+    while  open:
+        open.sort()
+        f,g,start,path=open.pop(0)
+        x,y=start
+        if (x,y) in visited:
+            continue
+        visited.add((x,y))
+
+        if start==goal:
+            return g, path
+        
+        moves = [(-1, 0, 'U'), (1, 0, 'D'), (0, -1, 'L'), (0, 1, 'R')]
+
+        for dx,dy,move in moves:
+           x,y=start
+
+           nx,ny=x+dx,y+dy
+
+           if 0<=nx<msize[0] and 0<=ny<msize[1] and grid[nx][ny]=="0":
+               if (nx,ny) not in visited:
+                   newg=g+1
+                   h=abs(nx-goal[0])+abs(ny-goal[1])
+                   newf=newg+h
+                   open.append((newf,newg,(nx,ny),path+move))
+
+    return -1, ""
+
+
+
+msize=[7,8]
+starting=[0,3]
+goal=[6,5]
+grid = [
+    ["#", "#", "#", "0", "#", "#", "#", "#"],
+    ["#", "0", "0", "0", "0", "0", "0", "#"],                                           ["#", "#", "#", "0", "#", "0", "0", "#"],
+    ["#", "0", "0", "0", "#", "0", "0", "#"],
+    ["#", "0", "#", "#", "#", "#", "#", "#"],
+    ["#", "0", "0", "0", "0", "0", "0", "#"],
+    ["#", "#", "#", "#", "#", "0", "#", "#"]
+]
+
+
+print(Astar(msize, starting, goal, grid  ))
